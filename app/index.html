@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Tracker - Goal Management Platform</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="auth-header">
+    <img src="../public/logo.png" alt="NorthStar" height="100">
+    <h1>NorthStar</h1>
+    <p>Track goals, measure consistency, achieve results</p>
+</div>
+</div>
+                <p class="header-subtitle">Track goals, measure consistency, achieve results</p>
+            </div>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section class="dashboard-section">
+            <h2>Dashboard</h2>
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <div class="analytics-label">Total Goals</div>
+                    <div class="analytics-value" id="totalGoals">0</div>
+                </div>
+                <div class="analytics-card">
+                    <div class="analytics-label">Completed</div>
+                    <div class="analytics-value" id="completedGoals">0</div>
+                </div>
+                <div class="analytics-card">
+                    <div class="analytics-label">Current Streak</div>
+                    <div class="analytics-value" id="currentStreak">0</div>
+                    <div class="analytics-subtext">days</div>
+                </div>
+                <div class="analytics-card">
+                    <div class="analytics-label">Longest Streak</div>
+                    <div class="analytics-value" id="longestStreak">0</div>
+                    <div class="analytics-subtext">days</div>
+                </div>
+                <div class="analytics-card">
+                    <div class="analytics-label">Active Days</div>
+                    <div class="analytics-value" id="activeDays">0</div>
+                    <div class="analytics-subtext">this month</div>
+                </div>
+                <div class="analytics-card">
+                    <div class="analytics-label">Total Progress</div>
+                    <div class="analytics-value" id="totalProgress">0</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Create Goal Section -->
+        <section class="create-goal-section">
+            <h2>Create New Goal</h2>
+            <form id="goalForm" class="goal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="goalTitle">Goal Title</label>
+                        <input type="text" id="goalTitle" placeholder="e.g., Learn Python" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="goalDescription">Description</label>
+                        <input type="text" id="goalDescription" placeholder="Additional details">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="goalTarget">Target Amount</label>
+                        <input type="number" id="goalTarget" placeholder="e.g., 100" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="goalUnit">Unit</label>
+                        <input type="text" id="goalUnit" placeholder="e.g., hours, pages" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="goalCategory">Goal Category</label>
+                        <select id="goalCategory" required>
+                            <!-- Populated by script -->
+                        </select>
+                        <span class="field-hint" id="categoryHint">Questions adapt to your goal type</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="goalDeadline">Deadline (Days)</label>
+                        <input type="number" id="goalDeadline" placeholder="e.g., 30" min="1" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create Goal</button>
+            </form>
+        </section>
+
+        <!-- Admin: Manage Goal Categories -->
+        <section class="admin-section" id="adminSection">
+            <button type="button" class="admin-toggle" id="adminToggle" aria-expanded="false">
+                <span class="admin-toggle-icon">⚙️</span>
+                <span>Manage Goal Categories</span>
+                <span class="admin-toggle-chevron">▼</span>
+            </button>
+            <div class="admin-panel" id="adminPanel" hidden>
+                <p class="admin-description">Add custom goal categories with coaching-style journal questions. Default categories cannot be deleted.</p>
+
+                <div id="adminCategoryList" class="admin-category-list"></div>
+
+                <form id="addCategoryForm" class="admin-add-form">
+                    <h3>Add New Category</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newCategoryName">Category Name</label>
+                            <input type="text" id="newCategoryName" placeholder="e.g., Language Learning" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCategoryIcon">Icon (emoji)</label>
+                            <input type="text" id="newCategoryIcon" placeholder="🌍" maxlength="4">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newCategoryDescription">Description</label>
+                        <input type="text" id="newCategoryDescription" placeholder="What this category tracks">
+                    </div>
+                    <div class="form-group">
+                        <label>Journal Questions (one per line)</label>
+                        <textarea id="newCategoryQuestions" rows="6" placeholder="What did you practice today?&#10;How many minutes did you study?&#10;What new words did you learn?&#10;What will you practice tomorrow?" required></textarea>
+                        <span class="field-hint">Mark a progress question with * at the end, e.g. "How many hours did you study?*"</span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Category</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Goals Section -->
+        <section class="goals-section">
+            <h2>Your Goals</h2>
+            <div id="goalsList" class="goals-list">
+                <p class="empty-state">No goals yet. Create one to get started.</p>
+            </div>
+        </section>
+    </div>
+
+    <script src="goal-categories.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

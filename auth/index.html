@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NorthStar - Authentication</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link rel="stylesheet" href="auth-style.css">
+</head>
+<body>
+    <div class="auth-container">
+
+        <!-- Auth Modal -->
+        <div id="authModal" class="auth-modal">
+            <div class="auth-card">
+
+                <!-- Header with Logo -->
+                <div class="auth-header">
+                    <img src="../public/logo.png" alt="NorthStar" style="height:100px; display:block; margin: 0 auto 12px auto; border-radius:12px;">
+                    <h1>NorthStar</h1>
+                    <p>Track goals, measure consistency, achieve results</p>
+                </div>
+
+                <!-- Sign Up / Login Tabs -->
+                <div class="auth-tabs">
+                    <button class="tab-btn active" onclick="switchTab('signup')">Sign Up</button>
+                    <button class="tab-btn" onclick="switchTab('login')">Login</button>
+                </div>
+
+                <!-- Sign Up Tab -->
+                <div id="signupTab" class="tab-content active">
+                    <form id="signupForm" onsubmit="handleSignup(event)">
+                        <div class="method-selector">
+                            <button type="button" class="method-btn active" onclick="switchAuthMethod('email')">
+                                <span>📧</span> Email
+                            </button>
+                            <button type="button" class="method-btn" onclick="switchAuthMethod('phone')">
+                                <span>📱</span> Phone
+                            </button>
+                        </div>
+
+                        <!-- Email Method -->
+                        <div id="emailMethod" class="auth-method active">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="signupName" placeholder="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" id="signupEmail" placeholder="your@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <div class="password-input-group">
+                                    <input type="password" id="signupPassword" placeholder="Min 8 characters">
+                                    <button type="button" class="toggle-password" onclick="togglePassword('signupPassword')">👁</button>
+                                </div>
+                                <div class="password-strength" id="passwordStrength"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm Password</label>
+                                <input type="password" id="signupPasswordConfirm" placeholder="Confirm password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Sign Up with Email</button>
+                        </div>
+
+                        <!-- Phone Method -->
+                        <div id="phoneMethod" class="auth-method">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="signupPhoneName" placeholder="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <div class="phone-input-group">
+                                    <select id="countryCode" title="Country Code">
+                                        <option value="+1">🇺🇸 +1</option>
+                                        <option value="+44">🇬🇧 +44</option>
+                                        <option value="+91">🇮🇳 +91</option>
+                                        <option value="+86">🇨🇳 +86</option>
+                                        <option value="+81">🇯🇵 +81</option>
+                                        <option value="+33">🇫🇷 +33</option>
+                                        <option value="+49">🇩🇪 +49</option>
+                                        <option value="+39">🇮🇹 +39</option>
+                                        <option value="+34">🇪🇸 +34</option>
+                                        <option value="+61">🇦🇺 +61</option>
+                                    </select>
+                                    <input type="tel" id="signupPhone" placeholder="Your phone number">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <div class="password-input-group">
+                                    <input type="password" id="signupPhonePassword" placeholder="Min 8 characters">
+                                    <button type="button" class="toggle-password" onclick="togglePassword('signupPhonePassword')">👁</button>
+                                </div>
+                                <div class="password-strength" id="phonePasswordStrength"></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Sign Up with Phone</button>
+                        </div>
+                    </form>
+
+                    <div class="divider">Or continue with</div>
+                    <div class="social-logins">
+                        <button type="button" class="social-btn google" id="googleSignupBtn"><span>G</span> Google</button>
+                        <button type="button" class="social-btn microsoft" onclick="showComingSoon('Microsoft')"><span>⊞</span> Microsoft</button>
+                        <button type="button" class="social-btn facebook" onclick="showComingSoon('Facebook')"><span>f</span> Facebook</button>
+                    </div>
+                </div>
+
+                <!-- Login Tab -->
+                <div id="loginTab" class="tab-content">
+                    <form id="loginForm" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label>Email or Phone</label>
+                            <input type="text" id="loginEmail" placeholder="your@email.com or +1234567890" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <div class="password-input-group">
+                                <input type="password" id="loginPassword" placeholder="Your password" required>
+                                <button type="button" class="toggle-password" onclick="togglePassword('loginPassword')">👁</button>
+                            </div>
+                        </div>
+                        <div class="form-group remember-me">
+                            <input type="checkbox" id="rememberMe">
+                            <label for="rememberMe">Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+
+                    <div class="divider">Or continue with</div>
+                    <div class="social-logins">
+                        <button type="button" class="social-btn google" id="googleLoginBtn"><span>G</span> Google</button>
+                        <button type="button" class="social-btn microsoft" onclick="showComingSoon('Microsoft')"><span>⊞</span> Microsoft</button>
+                        <button type="button" class="social-btn facebook" onclick="showComingSoon('Facebook')"><span>f</span> Facebook</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Verification Modal -->
+        <div id="verificationModal" class="auth-modal hidden">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h2>Verify Your <span id="verifyType">Email</span></h2>
+                    <p id="verifyMessage">We sent a verification code</p>
+                </div>
+                <form id="verificationForm" onsubmit="handleVerification(event)">
+                    <div class="form-group">
+                        <label id="verificationLabel">Verification Code</label>
+                        <input type="text" id="verificationCode" placeholder="000000" maxlength="6" required>
+                    </div>
+                    <div class="verification-info">
+                        <p id="verificationInfo">Enter the 6-digit code sent to your email</p>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Verify</button>
+                    <div class="resend-section">
+                        <p>Didn't receive a code?</p>
+                        <button type="button" class="btn-link" onclick="resendVerification()" id="resendBtn">Resend Code</button>
+                        <span id="resendTimer"></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="successModal" class="auth-modal hidden">
+            <div class="auth-card success">
+                <div class="success-icon">✓</div>
+                <h2>Account Created Successfully!</h2>
+                <p id="successMessage">Your account is ready to use</p>
+                <button class="btn btn-primary" onclick="enterApp()">Go to Dashboard</button>
+            </div>
+        </div>
+
+        <!-- Error Alert -->
+        <div id="errorAlert" class="error-alert"></div>
+
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
